@@ -1,4 +1,9 @@
 {% extends 'layout.html' %}
 {% block content %}
-
+    <h2>News Feed</h2>
+    {% for post in object_list %}
+        <div>
+            post.description
+        </div>
+    {% endfor %}
 {% endblock %}
