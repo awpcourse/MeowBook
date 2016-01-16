@@ -1,4 +1,5 @@
 sandbox
 **/*.pyc
 .idea
+meow/db.sqlite3
 
