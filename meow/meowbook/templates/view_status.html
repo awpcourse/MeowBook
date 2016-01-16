@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h2>meowBook</h2>
+        <div>
+            {{ object.text }} by <i>{{ object.cat.name }}</i></br>
+			{{ object.date_added }}</br>
+			
+        </div>
+	
+	<div class="row">
+       <div class="col-lg-8">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Post">
+            </form>
+        </div>
+	</div>
+		</br></br>
+		{% for comment in object.status_comments.all %}
+		<div>
+            {{ comment.text }} by <i>{{ comment.cat.name }}</i> on {{ comment.date_added }}</br>
+			
+        </div>
+		{% endfor %}
+{% endblock %}

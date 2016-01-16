@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h2>Search</h2>
+  </form>
+<div class="cats">
+  {% for cat in cats %}
+    <div class="cat-profile">
+      <p>{{ cat.avatar }}
+		{{ cat.name }}</p>
+	  <p>{{ cat.description }}</p>
+	  <p>{{ cat.user }}</p>
+      
+    </div>
+  {% endfor %}
+ </div>
+{% endblock %}

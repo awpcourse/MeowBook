@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h2>meowBook</h2>
+        <div>
+		<img src='{{ object.picture.url }} '> </br><i>{{ object.cat.name }}</i></br>
+			{{ object.date_added }}</br>
+			{{ object.description }}
+			
+        </div>
+	
+	<div class="row">
+       <div class="col-lg-8">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Post">
+            </form>
+        </div>
+	</div>
+		</br></br>
+		{% for photoComment in object.picture_comments.all %}
+		<div>
+            {{ photoComment.text }} by <i>{{ photoComment.cat.name }}</i> on {{ photoComment.date_added }}</br>
+			
+        </div>
+		{% endfor %}
+{% endblock %}
