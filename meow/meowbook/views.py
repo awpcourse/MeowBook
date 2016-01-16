@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.shortcuts import redirect, render
 from django.views.generic import View
 from django.views.generic.detail import DetailView
@@ -35,11 +36,12 @@ class NewsFeedView(ListView, LayoutView):
         return context
 
     def post(self, request, *args, **kwargs):
+        # current_cat = self.request.GET.get('current_cat')
         form = self.form_class(request.POST)
         # import pdb;pdb.set_trace()
         if form.is_valid():
             text = form.cleaned_data['text']
-            user_post = CatStatus(text=text, cat=self.current_cat)
+            user_post = CatStatus(text=text, cat=CatProfile.objects.get(pk=self.current_cat))
             user_post.save()
         return redirect('newsfeed')
 
@@ -49,11 +51,12 @@ def add_picture_view(request):
         form = AddPicForm()
         return render(request, 'add-picture.html', {'form': form})
     elif request.method == 'POST':
-        form = AddPicForm(request.form)
+        import pdb;pdb.set_trace()
+        form = AddPicForm(request.POST, request.FILES)
         if form.is_valid():
-            pic = form.cleaned_data['pic']
+            pic = request.FILES['pic']
             desc = form.cleaned_data['desc']
-            cat_pic = CatPicture(picture=pic, description=desc, cat=CatProfile.filter(pk=request.current_cat_pk))
+            cat_pic = CatPicture(picture=pic, description=desc, cat=CatProfile.filter(pk=request.get('current_cat_pk')))
             cat_pic.save()
         return redirect('newsfeed')
 

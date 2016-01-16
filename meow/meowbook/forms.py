@@ -1,4 +1,4 @@
-from django.forms import Form, CharField, ImageField, Textarea, PasswordInput
+from django.forms import Form, CharField, ImageField, Textarea, PasswordInput, FileField
 
 
 class CatStatusForm(Form):
@@ -32,7 +32,7 @@ class PhotoCommentForm(Form):
 
 
 class AddPicForm(Form):
-    pic = ImageField(label='Choose a picture')
+    pic = ImageField(label='Choose a picture', required=False)
     desc = CharField(widget=Textarea(
         attrs={'rows': 1, 'placeholder': "Description", 'class': "form-control"}),
         label='Now say something about it!')
