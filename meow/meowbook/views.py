@@ -1,13 +1,14 @@
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from django.views.generic import View
-from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from forms import CatStatusForm, LoginForm
-from models import CatPicture,CatProfile,CatStatus, UserProfile, CatPicture
-from forms import CatStatusForm, LoginForm, StatusCommentForm, PhotoCommentForm
-from models import CatPicture,CatProfile,CatStatus,StatusComment,PictureComment
+from django.views.generic.list import ListView
+
+from forms import CatStatusForm, LoginForm, AddPicForm
+from forms import StatusCommentForm, PhotoCommentForm
+from models import CatPicture,CatProfile,CatStatus, UserProfile
+from models import StatusComment,PictureComment
+
 
 class LayoutView(View):
 
@@ -31,7 +32,7 @@ class LayoutView(View):
         redirect('search', searchToken)
 
 
-class NewsFeedView(ListView,LayoutView):
+class NewsFeedView(ListView, LayoutView):
     model = CatPicture
     form_class = CatStatusForm
     template_name = 'newsfeed.html'
@@ -43,11 +44,24 @@ class NewsFeedView(ListView,LayoutView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+        import pdb;pdb.set_trace()
         if form.is_valid():
             text = form.cleaned_data['text']
-            user_post = CatStatusForm(text=text, author=request.user)
+            user_post = CatStatus(text=text, cat=self.current_cat)
             user_post.save()
         return redirect('newsfeed')
+
+
+def add_picture_view(request):
+    if request.method == 'GET':
+        form = AddPicForm()
+        return render(request, 'add-picture.html', {'form': form})
+    elif request.method == 'POST':
+        form = AddPicForm(request.form)
+        if form.is_valid():
+            pic = form.cleaned_data['pic']
+            desc = form.cleaned_data['desc']
+            # cat_pic = CatPicture(picture=pic, description=desc, cat=current_cat)
 
 
 class StatusCommentView(DetailView):
@@ -125,3 +139,20 @@ def search(request, cat_name):
         return render(request, 'search.html', context)
 
 
+def cat_status(request, pk):
+    status = CatStatus.objects.get(pk=pk)
+
+    if request.method == 'GET':
+        context = {
+            'status': status,
+        }
+        return render(request, 'view_status.html', context)
+
+
+def discover(request):
+    if request.method == 'GET':
+        pictures = CatPicture.objects.all()
+        context = {
+            'pictures': pictures,
+        }
+        return render(request, 'discover.html', context)

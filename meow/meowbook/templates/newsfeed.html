@@ -1,40 +1,40 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h2 class="page-header"> News Feed </h2>
     <div class="row">
-       <div class="col-lg-10">
-            <form method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    {{ form.as_p }}
-
-                </div>
-                <input class="btn btn-primary" type="submit" value="Post">
-            </form>
-        </div>
-        <div class="col-lg-2">
-            <button class="btn btn-default pull-right"> Add pic </button>
-        </div>
+        <h2 class="page-header"> News Feed </h2>
     </div>
     <div class="row">
-        {% for picture in object_list %}
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div style="margin-top:20px; margin-left:20px;">
-                                Posted by <span>{{ picture.cat.name }}</span>  on <span>{{ picture.date_added }}</span>
-                            </div>
-                            <!--<img class="img-circle" src="{{ picture.cat.avatar.url }}" width="50">-->
+       <div class="col-lg-12">
+           <div class="panel panel-default">
+               <div class="panel-body">
+                   <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.as_p }}
                         </div>
-                    </div>
-                    <div class="panel-body">
-                        <img class="img-responsive img-thumbnail" src="{{ picture.picture.url }}"/>
-                        {{ picture.description }}
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
+                        <input class="btn btn-primary" type="submit" value="Post">
+                       <a class="btn btn-default pull-right" href="{% url 'add-picture' %}"> Add pic </a>
+                    </form>
+               </div>
+           </div>
+        </div>
     </div>
+
+
+    <section id="pinBoot">
+        {% for picture in object_list %}
+            <article class="white-panel">
+                 <img class="img-circle" src="{{ picture.cat.avatar.url }}" style="height:60px;width:60px;">
+                        <strong><a href="#" >{{ picture.cat.name }}</a> </strong>
+                        <br/> on <span><small>{{ picture.date_added }}</small></span>
+                        <hr/>
+                        <img src="{{ picture.picture.url }}" alt="">
+                        <br/>
+                    <div class="well" style="padding:5px;margin-top:10px;">
+                        <p> <small>{{ picture.description }}</small> </p>
+                    </div>
+            </article>
+        {% endfor %}
+    </section>
 
 {% endblock %}

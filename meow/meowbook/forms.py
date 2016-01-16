@@ -1,9 +1,11 @@
-from django.forms import Form, CharField, Textarea, PasswordInput
+from django.forms import Form, CharField, ImageField, Textarea, PasswordInput
 
 
 class CatStatusForm(Form):
     text = CharField(widget=Textarea(
-        attrs={'rows': 2, 'placeholder': "Tell us how you feel..."}))
+        attrs={'rows': 2, 'placeholder': "Tell us how you feel...", 'class': "form-control"}),
+        label='')
+
 
 class SearchBarForm(Form):
     text = CharField(widget=Textarea(
@@ -27,3 +29,10 @@ class PhotoCommentForm(Form):
         attrs={'rows': 2, 'placeholder': "MEEOOOWW THIS PHOTO..."}),
         label='')
 
+
+
+class AddPicForm(Form):
+    pic = ImageField(label='Choose a picture')
+    desc = CharField(widget=Textarea(
+        attrs={'rows': 1, 'placeholder': "Description", 'class': "form-control"}),
+        label='Now say something about it!')
