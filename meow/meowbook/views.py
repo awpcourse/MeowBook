@@ -1,12 +1,37 @@
 from django.shortcuts import redirect, render
+from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from forms import CatStatusForm, LoginForm
+from models import CatPicture,CatProfile,CatStatus, UserProfile
 from forms import CatStatusForm, LoginForm, StatusCommentForm
 from models import CatPicture,CatProfile,CatStatus,StatusComment
 
+class LayoutView(View):
 
-class NewsFeedView(ListView):
+    def get_context_data(self, request, **kwargs):
+        form = self.SearchBarForm(request)
+        catList = UserProfile.cats
+        if request.user.is_authenticated():
+            user = request.user.username()
+        else:
+            user = "Failed user get"
+
+        context = super(LayoutView, self).get_context_data(**kwargs)
+        context['cats'] = catList
+        context['search_form'] = form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.SearchBarForm(request.POST)
+        if form.is_valid():
+            searchToken = form.cleaned_data['text']
+        redirect('search', searchToken)
+
+
+class NewsFeedView(ListView,LayoutView):
     model = CatPicture
     form_class = CatStatusForm
     template_name = 'newsfeed.html'
@@ -81,4 +106,11 @@ def search(request, cat_name):
         }
         return render(request, 'search.html', context)
 
+
+
+    if request.method == 'GET':
+        context = {
+            'status': status,
+        }
+        return render(request, 'view_status.html', context)
 
