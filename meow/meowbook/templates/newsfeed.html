@@ -19,7 +19,9 @@
            </div>
         </div>
     </div>
-    <div class="row">
+
+
+    <section id="pinBoot">
         {% for picture in object_list %}
             <div class="col-lg-4">
                 <div class="panel panel-default">
@@ -45,7 +47,18 @@
                     </div>
                 </div>
             </div>
+            <article class="white-panel">
+                 <img class="img-circle" src="{{ picture.cat.avatar.url }}" style="height:60px;width:60px;">
+                        <strong><a href="#" >{{ picture.cat.name }}</a> </strong>
+                        <br/> on <span><small>{{ picture.date_added }}</small></span>
+                        <hr/>
+                        <img src="{{ picture.picture.url }}" alt="">
+                        <br/>
+                    <div class="well" style="padding:5px;margin-top:10px;">
+                        <p> <small>{{ picture.description }}</small> </p>
+                    </div>
+            </article>
         {% endfor %}
-    </div>
+    </section>
 
 {% endblock %}

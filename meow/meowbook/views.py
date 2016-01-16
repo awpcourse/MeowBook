@@ -14,6 +14,7 @@ from models import CatPicture,CatProfile,CatStatus, UserProfile
 
 
 class LayoutView(View):
+
     def get_context_data(self, request, **kwargs):
         form = self.SearchBarForm(request)
         catList = UserProfile.cats
@@ -150,3 +151,11 @@ def cat_status(request, pk):
         }
         return render(request, 'view_status.html', context)
 
+
+def discover(request):
+    if request.method == 'GET':
+        pictures = CatPicture.objects.all()
+        context = {
+            'pictures': pictures,
+        }
+        return render(request, 'discover.html', context)
