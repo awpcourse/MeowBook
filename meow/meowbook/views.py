@@ -1,8 +1,10 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from forms import CatStatusForm, LoginForm
+from models import CatPicture,CatProfile,CatStatus
 
-from forms import CatStatusForm
-from models import CatPicture
 
 
 class NewsFeedView(ListView):
@@ -51,6 +53,27 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+
+
+
+def search(request, cat_name):
+    cats = CatProfile.objects.filter(name__contains=cat_name).all()
+
+    if request.method == 'GET':
+        context = {
+            'cats': cats,
+        }
+        return render(request, 'search.html', context)
+
+
+def cat_status(request, pk):
+    status =  CatStatus.objects.get(pk=pk)
+
+    if request.method == 'GET':
+        context = {
+            'status': status,
+        }
+        return render(request, 'view_status.html', context)
 
 class LayoutView(View):
 
