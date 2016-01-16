@@ -8,7 +8,7 @@ from forms import CatStatusForm, LoginForm, AddPicForm
 from forms import StatusCommentForm, PhotoCommentForm
 from models import CatPicture,CatProfile,CatStatus, UserProfile
 from models import StatusComment,PictureComment
-
+import urlparse
 
 class LayoutView(View):
     # currentcat = "Select Cat"
@@ -31,11 +31,13 @@ class NewsFeedView(ListView, LayoutView):
     form_class = CatStatusForm
     template_name = 'newsfeed.html'
     current_cat = None
-    def get_context_data(self,request, **kwargs):
-        current_cat = request.get('current_cat')
+
+    def get_context_data(self, **kwargs):
+        self.current_cat = self.request.GET.get('current_cat')
         context = super(NewsFeedView, self).get_context_data(**kwargs)
         # import pdb;pdb.set_trace()
         context['form'] = self.form_class()
+        context['current'] = self.current_cat
         return context
 
     def post(self, request, *args, **kwargs):
