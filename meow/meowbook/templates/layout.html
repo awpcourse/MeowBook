@@ -9,8 +9,8 @@
 </head>
 <body>
     <img src="searchImg"/>
-    <a href="{% url 'newsFeed'  %}"><small>MeowBook</small></a>
-    <a href="{% url 'discover'  %}"><small>Discover</small></a>
+    <a href="{% url 'newsfeed'  %}"><small>MeowBook</small></a>
+
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}

@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.views.generic.list import ListView, View
-from models import UserProfile, CatPictures
+from models import UserProfile, CatPicture
 
 from forms import CatStatusForm
 from models import CatPicture
