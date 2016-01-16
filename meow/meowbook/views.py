@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from forms import CatStatusForm
-from models import CatPicture,CatProfile
+from models import CatPicture,CatProfile,CatStatus
 
 
 class NewsFeedView(ListView):
@@ -34,3 +34,13 @@ def search(request, cat_name):
             'cats': cats,
         }
         return render(request, 'search.html', context)
+
+
+def cat_status(request, pk):
+    status =  CatStatus.objects.get(pk=pk)
+
+    if request.method == 'GET':
+        context = {
+            'status': status,
+        }
+        return render(request, 'view_status.html', context)
