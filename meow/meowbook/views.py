@@ -11,13 +11,7 @@ from models import StatusComment,PictureComment
 import urlparse
 
 class LayoutView(View):
-    # currentcat = "Select Cat"
-    # def get_context_data(self,**kwargs):
-    #     context = super(NewsFeedView, self).get_context_data(**kwargs)
-    #     if(context['current_cat']!=None):
-    #         currentcat = context['current_cat']
-    #     else:
-    #         context['current_cat']=currentcat
+
 
     def post(self, request, *args, **kwargs):
         form = self.SearchBarForm(request.POST)
@@ -59,7 +53,9 @@ def add_picture_view(request):
         if form.is_valid():
             pic = form.cleaned_data['pic']
             desc = form.cleaned_data['desc']
-            # cat_pic = CatPicture(picture=pic, description=desc, cat=current_cat)
+            cat_pic = CatPicture(picture=pic, description=desc, cat=CatProfile.filter(pk=request.current_cat_pk))
+            cat_pic.save()
+        return redirect('newsfeed')
 
 
 class StatusCommentView(DetailView):
@@ -98,6 +94,17 @@ class PhotoView(DetailView):
         context = super(PhotoView, self).get_context_data(**kwargs)
         context['form'] = self.form_class()
         return context
+
+
+class ProfileView(DetailView):
+    model = CatProfile
+    template_name = 'viewProfile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        # context['form'] = self.form_class()
+        return context
+
 
 def login_view(request):
     if request.method == 'GET':

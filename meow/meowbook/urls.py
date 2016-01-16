@@ -12,6 +12,6 @@ urlpatterns = [
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^search/(?P<cat_name>.+)/$', views.search, name='search'),
     url(r'^view_status/(?P<pk>.+)/$', views.StatusCommentView.as_view(), name='status'),
-    url(r'^viewPhoto/(?P<pk>.+)/$', views.PhotoView.as_view(), name='status'),
-
+    url(r'^viewPhoto/(?P<pk>.+)/$', views.PhotoView.as_view(), name='view-photo'),
+    url(r'^viewProfile/(?P<pk>.+)/$', views.ProfileView.as_view(), name='view-profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

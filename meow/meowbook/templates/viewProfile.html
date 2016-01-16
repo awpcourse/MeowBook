@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+    <div class="row">
+         <div class="col-lg-12">
+             <img class="img-circle" src="{{ object.avatar.url }}" style="width:300px;height:300px;"/>
+              <span style="font-size:40px;margin-left:50px;">{{ object.name }}</span>
+         </div>
+    </div>
+    <div class="row">
+        <p style="margin-top:40px;">
+            {{ object.description }}
+        </p>
+        <p>
+            I am owned by {{ object.user }}
+        </p>
+    </div>
+    <div>
+        <!--<section id="pinBoot">-->
+            <!--{% for picture in object_list %}-->
+                <!--<article class="white-panel">-->
+    <!---->
+                         <!--<img class="img-circle" src="{{ picture.cat.avatar.url }}" style="height:60px;width:60px;">-->
+                            <!--<strong><a href="{% url 'view-profile' pk=picture.cat.pk %}" >{{ picture.cat.name }}</a> </strong>-->
+                            <!--<br/> on <span><small>{{ picture.date_added }}</small></span>-->
+                            <!--<hr/>-->
+                        <!--<a href="{% url 'view-photo' pk=picture.pk %}">-->
+                            <!--<img src="{{ picture.picture.url }}" alt="">-->
+                        <!--</a>-->
+                            <!--<br/>-->
+                        <!--<div class="well" style="padding:5px;margin-top:10px;">-->
+                            <!--<p> <small>{{ picture.description }}</small> </p>-->
+                        <!--</div>-->
+    <!---->
+                <!--</article>-->
+            <!--{% endfor %}-->
+        <!--</section>-->
+    </div>
+
+{% endblock %}

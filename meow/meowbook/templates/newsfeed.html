@@ -13,7 +13,7 @@
                             {{ form.as_p }}
                         </div>
                         <input class="btn btn-primary" type="submit" value="Post">
-                       <a class="btn btn-default pull-right" href="{% url 'add-picture' %}"> Add pic </a>
+                       <a class="btn btn-default pull-right" href="{% url 'add-picture' %}?current_cat_pk={{ current_cat }}"> Add pic </a>
                     </form>
                </div>
            </div>
@@ -24,15 +24,19 @@
     <section id="pinBoot">
         {% for picture in object_list %}
             <article class="white-panel">
-                 <img class="img-circle" src="{{ picture.cat.avatar.url }}" style="height:60px;width:60px;">
-                        <strong><a href="#" >{{ picture.cat.name }}</a> </strong>
+
+                     <img class="img-circle" src="{{ picture.cat.avatar.url }}" style="height:60px;width:60px;">
+                        <strong><a href="{% url 'view-profile' pk=picture.cat.pk %}" >{{ picture.cat.name }}</a> </strong>
                         <br/> on <span><small>{{ picture.date_added }}</small></span>
                         <hr/>
+                    <a href="{% url 'view-photo' pk=picture.pk %}">
                         <img src="{{ picture.picture.url }}" alt="">
+                    </a>
                         <br/>
                     <div class="well" style="padding:5px;margin-top:10px;">
                         <p> <small>{{ picture.description }}</small> </p>
                     </div>
+
             </article>
         {% endfor %}
     </section>
