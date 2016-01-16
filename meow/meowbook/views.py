@@ -1,10 +1,9 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic.list import ListView
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-
-from forms import CatStatusForm
-from models import CatPicture,CatProfile,CatStatus
+from forms import CatStatusForm, LoginForm
+from models import CatPicture
 
 
 class NewsFeedView(ListView):
@@ -23,24 +22,32 @@ class NewsFeedView(ListView):
             text = form.cleaned_data['text']
             user_post = CatStatusForm(text=text, author=request.user)
             user_post.save()
-        return redirect('index')
+        return redirect('newsfeed')
 
 
-def search(request, cat_name):
-    cats = CatProfile.objects.filter(name__contains=cat_name).all()
-
+def login_view(request):
     if request.method == 'GET':
+        form = LoginForm()
         context = {
-            'cats': cats,
+            'form': form,
         }
-        return render(request, 'search.html', context)
+        return render(request, 'login.html', context)
+    elif request.method == 'POST':
+        form = LoginForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is None:
+            context = {
+                'form': form,
+                'message': 'Wrong username or password!'
+            }
+            return render(request, 'login.html', context)
+        else:
+            login(request, user)
+            return redirect('newsfeed')
 
 
-def cat_status(request, pk):
-    status =  CatStatus.objects.get(pk=pk)
-
-    if request.method == 'GET':
-        context = {
-            'status': status,
-        }
-        return render(request, 'view_status.html', context)
+def logout_view(request):
+    logout(request)
+    return redirect('login')
