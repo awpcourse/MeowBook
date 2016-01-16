@@ -1,9 +1,10 @@
 {% extends 'layout.html' %}
 {% block content %}
     <h2>News Feed</h2>
-    {% for post in object_list %}
+    {% for picture in object_list %}
         <div>
-            post.description
+            <img src="{{ picture.picture.url }}" width="250" height="250"/>
+            {{ picture.description }}
         </div>
     {% endfor %}
 {% endblock %}
