@@ -1,4 +1,4 @@
-from django.forms import Form, CharField, Textarea, PasswordInput
+from django.forms import Form, CharField, ImageField, Textarea, PasswordInput
 
 
 class CatStatusForm(Form):

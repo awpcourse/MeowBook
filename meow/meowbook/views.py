@@ -1,16 +1,13 @@
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from django.views.generic import View
-from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.contrib.auth import authenticate, login, logout
-from django.views.generic.edit import CreateView
-from django.contrib.auth.decorators import login_required
-from forms import CatStatusForm, LoginForm
-from models import CatPicture,CatProfile,CatStatus, UserProfile, CatPicture
-from forms import CatStatusForm, LoginForm, StatusCommentForm, PhotoCommentForm
-from models import CatPicture,CatProfile,CatStatus,StatusComment,PictureComment
+from django.views.generic.list import ListView
+
 from forms import CatStatusForm, LoginForm, AddPicForm
+from forms import StatusCommentForm, PhotoCommentForm
 from models import CatPicture,CatProfile,CatStatus, UserProfile
+from models import StatusComment,PictureComment
 
 
 class LayoutView(View):
