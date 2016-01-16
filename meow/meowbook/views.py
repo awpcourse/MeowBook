@@ -11,14 +11,6 @@ from models import StatusComment,PictureComment
 
 
 class LayoutView(View):
-    currentcat = "Select Cat"
-    def get_context_data(self,**kwargs):
-        context = super(NewsFeedView, self).get_context_data(**kwargs)
-        if(context['current_cat']!=None):
-            currentcat = context['current_cat']
-        else:
-            context['current_cat']=currentcat
-
     def post(self, request, *args, **kwargs):
         form = self.SearchBarForm(request.POST)
         if form.is_valid():
@@ -95,6 +87,7 @@ class PhotoView(DetailView):
         context = super(PhotoView, self).get_context_data(**kwargs)
         context['form'] = self.form_class()
         return context
+
 
 def login_view(request):
     if request.method == 'GET':
