@@ -1,16 +1,41 @@
 {% extends 'layout.html' %}
 {% block content %}
-  <h2>Search</h2>
+  <h2>Search results</h2>
   </form>
 <div class="cats">
-  {% for cat in cats %}
-    <div class="cat-profile">
-      <p>{{ cat.avatar }}
-		{{ cat.name }}</p>
-	  <p>{{ cat.description }}</p>
-	  <p>{{ cat.user }}</p>
+
+<div class="cats" style="display: inline-block;">
+	{% for cat in cats %}
+		<div class="cat-profile container bootstrap snippet well">
+		  
+			<div class="col-sm-5">
+			</br>
+				<div class="pull-left image">
+					<img src='{{ cat.avatar.url }}' width='200px' height='150px' style="padding:0px;">
+				</div>
+			
+			</br>
+			&nbsp;&nbsp;My name is <b>{{ cat.name }}</b>.</br>
+			</span><br>
+			<i>&nbsp;&nbsp;{{ cat.description }}</i></br></br>
+			&nbsp;&nbsp;My slave is <u><b>{{ cat.user }}</b></u>
+			<hr style="margin:5px;">
+			<span style="margin-left:10px; margin-top:0px;"></span>
+					
+			</div>
+			<div class="pull-right">
+				<br><br>
+				{% for picture in cat.pictures.all %}
+					<a href="/viewPhoto/{{ picture.pk }}"/><img src='{{ picture.picture.url }}' width='100px' height='80' style="padding:0px;"></a>
+				{% endfor %}
+			</div>
+			
+		</div>
+		{% endfor %}
+		</div>
+	</div>
       
     </div>
-  {% endfor %}
+
  </div>
 {% endblock %}
