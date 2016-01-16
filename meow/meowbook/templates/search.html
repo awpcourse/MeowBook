@@ -11,7 +11,7 @@
 				<div class="col-sm-5">
 				</br>
 					<div class="pull-left image">
-						<img src='{{ cat.avatar.url }}' width='200px' height='150px' style="padding:0px;">
+						<img src='{{ cat.avatar.url }}'  style="width:200px;height:auto;padding:0px;">
 					</div>
 				
 				</br>
@@ -26,7 +26,7 @@
 				<div class="pull-right">
 					<br><br>
 					{% for picture in cat.pictures.all %}
-						<a href="/viewPhoto/{{ picture.pk }}"/><img src='{{ picture.picture.url }}' width='100px' height='80' style="padding:0px;"></a>
+						<a href="/viewPhoto/{{ picture.pk }}"/><img src='{{ picture.picture.url }}'  style="height:80px;width:80px;padding:0px;"></a>
 					{% endfor %}
 				</div>
 				
