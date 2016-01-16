@@ -67,7 +67,7 @@ srch_term = document.getElementById("srch_term").value;
                                     <a href="#" class="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         {% for cat in cats  %}
-                                             <li value='{{ cat.name }}'> <a href="{% url 'newsfeed' %}?current_cat={{ cat.name }}" >   {{ cat.name }}</a></li>
+                                             <li value='{{ cat.name }}'> <a href="{% url 'newsfeed' %}?current_cat={{ cat.pk }}" >   {{ cat.name }}</a></li>
                                         {% endfor %}
 
                                     </ul>
