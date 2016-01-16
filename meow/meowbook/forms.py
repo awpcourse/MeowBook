@@ -10,6 +10,7 @@ class SearchBarForm(Form):
         attrs={'rows': 1, 'cols': 30, 'placeholder': 'Search ...'}),
         label='')
 
+
 class LoginForm(Form):
     username = CharField(max_length=30)
     password = CharField(widget=PasswordInput)
