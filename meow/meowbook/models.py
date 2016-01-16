@@ -1,5 +1,80 @@
 from __future__ import unicode_literals
-
+from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
+
+class ScratchStatuses(models.Model):
+    cat = models.ForeignKey(CatStatuses)
+    user = models.ForeignKey(User)
+
+
+class ScratchPictures(models.Model):
+    cat = models.ForeignKey(CatPictures)
+    user = models.ForeignKey(User)
+
+
+class ScratchComment(models.Model):
+    cat = models.ForeignKey(Comment)
+    user = models.ForeignKey(User)
+
+
+class MeowsStatuses(models.Model):
+    cat = models.ForeignKey(CatStatuses)
+    user = models.ForeignKey(User)
+
+
+class MeowsPictures(models.Model):
+    cat = models.ForeignKey(CatPictures)
+    user = models.ForeignKey(User)
+
+
+class MeowsComment(models.Model):
+    cat = models.ForeignKey(Comment)
+    user = models.ForeignKey(User)
+
+
+class Comment(models.Model):
+    catWhoCommented = models.ForeignKey(CatProfile)
+    statusText = models.TextField(max_length=200)
+    date_addded = models.DateTimeField(auto_now_add=True)
+
+
+class CatStatuses(models.Model):
+    text = models.TextField(max_length=300)
+    comments = models.ForeignKey(Comment, related_name="comments")
+    date_added = models.DateTimeField(auto_now_add=True)
+    cat = models.ForeignKey(CatProfile, related_name="cat")
+
+
+class CatPictures(models.Model):
+    picture_url = models.ImageField(upload_to='images/', height_field=None, width_field=None)
+    comments = models.ForeignKey(Comment, related_name="comments")
+    date_addded = models.DateTimeField(auto_now_add=True)
+    description = models.TextField(max_length=300)
+    cat = models.ForeignKey(CatProfile, related_name="cat")
+
+
+class CatProfile(models.Model):
+    name = models.TextField(max_length=30)
+    description = models.TextField(max_length=500)
+    avatar = models.ImageField(upload_to='images/', height_field=None, width_field=None)
+    user = models.ForeignKey(User)
+
+
+class UserProfile(models.Model):
+    MASCULINE = 'M'
+    FEMININE = 'F'
+    sex_choices = (
+        (MASCULINE, 'Masculine'),
+        (FEMININE, 'Feminine'),
+    )
+    first_name = models.TextField(max_length=30)
+    description = models.TextField(max_length=500)
+    last_name = models.TextField(max_length=20)
+    birth_date = models.DateTimeField()
+    sex = models.CharField(max_length=2,
+                           choices=sex_choices,
+                           default=MASCULINE)
+    user = models.OneToOneField(User, primary_key=True, related_name="profile")
+    avatar = models.ImageField(upload_to='images/', height_field=None, width_field=None)
+    cats = models.ForeignKey(User, related_name="keys")
