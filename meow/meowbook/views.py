@@ -3,14 +3,17 @@ from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth import authenticate, login, logout
+from django.views.generic.edit import CreateView
 from django.contrib.auth.decorators import login_required
 from forms import CatStatusForm, LoginForm
 from models import CatPicture,CatProfile,CatStatus, UserProfile, CatPicture
 from forms import CatStatusForm, LoginForm, StatusCommentForm, PhotoCommentForm
 from models import CatPicture,CatProfile,CatStatus,StatusComment,PictureComment
+from forms import CatStatusForm, LoginForm, AddPicForm
+from models import CatPicture,CatProfile,CatStatus, UserProfile
+
 
 class LayoutView(View):
-
     def get_context_data(self, request, **kwargs):
         form = self.SearchBarForm(request)
         catList = UserProfile.cats
@@ -43,11 +46,24 @@ class NewsFeedView(ListView, LayoutView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+        import pdb;pdb.set_trace()
         if form.is_valid():
             text = form.cleaned_data['text']
-            user_post = CatStatusForm(text=text, author=request.user)
+            user_post = CatStatus(text=text, cat=self.current_cat)
             user_post.save()
         return redirect('newsfeed')
+
+
+def add_picture_view(request):
+    if request.method == 'GET':
+        form = AddPicForm()
+        return render(request, 'add-picture.html', {'form': form})
+    elif request.method == 'POST':
+        form = AddPicForm(request.form)
+        if form.is_valid():
+            pic = form.cleaned_data['pic']
+            desc = form.cleaned_data['desc']
+            # cat_pic = CatPicture(picture=pic, description=desc, cat=current_cat)
 
 
 class StatusCommentView(DetailView):
@@ -124,4 +140,13 @@ def search(request, cat_name):
         }
         return render(request, 'search.html', context)
 
+
+def cat_status(request, pk):
+    status = CatStatus.objects.get(pk=pk)
+
+    if request.method == 'GET':
+        context = {
+            'status': status,
+        }
+        return render(request, 'view_status.html', context)
 
