@@ -5,12 +5,23 @@
 <head>
     <meta charset="UTF-8">
     <title>MeowBook</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="{% static 'pinterestgrid.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'pinterestgrid.css' %}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript">
+    function search()
+    {
+srch_term = document.getElementById("srch_term").value;
+    var url = "/search/"+srch_term;
+    location.href = url;
+    }
+
+    </script>
 
 </head>
 <body>
@@ -33,27 +44,34 @@
                              <li><a href="{% url 'discover' %}">Discover</a></li>
                         </ul>
 
-                        <form class="navbar-form navbar-left" role="search" method="post">
-                            <div class="form-group">
+                        <!--<form class="navbar-form navbar-left" role="search" method="post">-->
+                            <!--<div class="form-group">-->
 
+
+                    <div class="col-sm-3 col-md-3 input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="srch_term" id="srch_term">
+                        <div class="input-group-btn">
+                            <button ID="myButton"  class="btn btn-default glyphicon glyphicon-search" onclick="search()" Text="Search" />
+                        </div>
                                 {% csrf_token %}
                                 {{ search_form.as_p }}
-                                <button type="submit" class="btn btn-default glyphicon glyphicon-search" value="Post"></button>
+
                             </div>
 
-                        </form>
+
 
                          <ul class="nav navbar-nav navbar-right">
                              <li class="glyphicon glyphicon-user"></li>
                              <li><a href="#">{{ request.user.username  }}</a></li>
-                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                                <select class="dropdown-menu">
-                                    {% for cat in cats  %}
-                                     <option value="{{ catName }}">  <a href="#">{{ cat.name }}</a></option>
-                                    {% endfor %}
-                                </select>
-                             </li>
+                                <li class="dropdown">
+                                    <a href="#" class="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        {% for cat in cats  %}
+                                             <li value='{{ cat.name }}'> <a href="{% url 'newsfeed' %}?current_cat={{ cat.name }}" >   {{ cat.name }}</a></li>
+                                        {% endfor %}
+
+                                    </ul>
+                                </li>
                          </ul>
                     </div><!-- /.navbar-collapse -->
 

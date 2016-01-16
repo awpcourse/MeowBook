@@ -8,7 +8,7 @@ class CatStatusForm(Form):
 
 
 class SearchBarForm(Form):
-    text = CharField(widget=Textarea(
+    search_text = CharField(widget=Textarea(
         attrs={'rows': 1, 'cols': 30, 'placeholder': 'Search ...'}),
         label='')
 

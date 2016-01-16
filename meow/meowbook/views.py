@@ -11,19 +11,13 @@ from models import StatusComment,PictureComment
 
 
 class LayoutView(View):
-
-    def get_context_data(self, request, **kwargs):
-        form = self.SearchBarForm(request)
-        catList = UserProfile.cats
-        if request.user.is_authenticated():
-            user = request.user.username()
+    currentcat = "Select Cat"
+    def get_context_data(self,**kwargs):
+        context = super(NewsFeedView, self).get_context_data(**kwargs)
+        if(context['current_cat']!=None):
+            currentcat = context['current_cat']
         else:
-            user = "Failed user get"
-
-        context = super(LayoutView, self).get_context_data(**kwargs)
-        context['cats'] = catList
-        context['search_form'] = form
-        return context
+            context['current_cat']=currentcat
 
     def post(self, request, *args, **kwargs):
         form = self.SearchBarForm(request.POST)
@@ -39,12 +33,13 @@ class NewsFeedView(ListView, LayoutView):
 
     def get_context_data(self, **kwargs):
         context = super(NewsFeedView, self).get_context_data(**kwargs)
+        # import pdb;pdb.set_trace()
         context['form'] = self.form_class()
         return context
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        import pdb;pdb.set_trace()
+        # import pdb;pdb.set_trace()
         if form.is_valid():
             text = form.cleaned_data['text']
             user_post = CatStatus(text=text, cat=self.current_cat)
