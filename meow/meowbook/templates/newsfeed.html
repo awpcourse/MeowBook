@@ -14,10 +14,11 @@
         </div>
     </div>
 
-    {% for post in object_list %}
+    {% for picture in object_list %}
         <div class="panel panel-default">
             <div class="panel-body">
-                post.description
+                <img src="{{ picture.picture.url }}" width="250" height="250"/>
+                {{ picture.description }}
             </div>
         </div>
     {% endfor %}
