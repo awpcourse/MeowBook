@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="page-header" style="text-align:center;">
+     <span style="font-size:80px;"><b>Discover</b></span>
+          <p style="font-size:20px;"> Discover some awesome lovely cats right here right now !</p>
+    </div>
+          <hr/>
+          <section id="pinBoot">
+                {% for picture in pictures %}
+                    <article class="white-panel">
+                        <img class="img-circle" src="{{ picture.cat.avatar.url }}" style="height:60px;width:60px;">
+                        <strong><a href="#" >{{ picture.cat.name }}</a> </strong>
+                        <br/> on <span><small>{{ picture.date_added }}</small></span>
+                        <hr/>
+                        <img src="{{ picture.picture.url }}" alt="">
+                        <br/>
+                    <div class="well" style="padding:5px;margin-top:10px;">
+                        <p> <small>{{ picture.description }}</small> </p>
+                    </div>
+                    </article>
+                {% endfor %}
+          </section>
+</div>
+{% endblock %}

@@ -125,3 +125,20 @@ def search(request, cat_name):
         return render(request, 'search.html', context)
 
 
+def cat_status(request, pk):
+    status = CatStatus.objects.get(pk=pk)
+
+    if request.method == 'GET':
+        context = {
+            'status': status,
+        }
+        return render(request, 'view_status.html', context)
+
+
+def discover(request):
+    if request.method == 'GET':
+        pictures = CatPicture.objects.all()
+        context = {
+            'pictures': pictures,
+        }
+        return render(request, 'discover.html', context)
