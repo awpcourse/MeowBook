@@ -8,26 +8,8 @@
     <script src="/bin/bootstrap.min.js"></script>
 </head>
 <body>
-    <img src="searchImg"/>
-    <a href="{% url 'newsfeed'  %}"><small>MeowBook</small></a>
-
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-        <input type="submit" value="Post">
-
-            <img src="searchImg"/>
-        <p>{{ loggedInUser }}</p>
-        <select>
-            {% for cat in cats  %}
-                <option value="{{ catName }}">{{ cat.name }}</option>
-            {% endfor %}
-        </select>
-        </form>
-
 
     {% block content %}
     {% endblock %}
 </body>
 </html>
-

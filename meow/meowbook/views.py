@@ -1,6 +1,5 @@
-from django.shortcuts import redirect, render
-from django.views.generic.list import ListView, View
-from models import UserProfile, CatPicture
+from django.shortcuts import redirect
+from django.views.generic.list import ListView
 
 from forms import CatStatusForm
 from models import CatPicture
@@ -22,7 +21,35 @@ class NewsFeedView(ListView):
             text = form.cleaned_data['text']
             user_post = CatStatusForm(text=text, author=request.user)
             user_post.save()
-        return redirect('index')
+        return redirect('newsfeed')
+
+
+def login_view(request):
+    if request.method == 'GET':
+        form = LoginForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'login.html', context)
+    elif request.method == 'POST':
+        form = LoginForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is None:
+            context = {
+                'form': form,
+                'message': 'Wrong username or password!'
+            }
+            return render(request, 'login.html', context)
+        else:
+            login(request, user)
+            return redirect('newsfeed')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 
 class LayoutView(View):
