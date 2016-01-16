@@ -32,7 +32,8 @@ class PictureComment(models.Model):
 
 
 class StatusComment(models.Model):
-    cat = models.ForeignKey(CatProfile, related_name="status_comments")
+    cat = models.ForeignKey(CatProfile)
+    status = models.ForeignKey(CatStatus, related_name="status_comments")
     text = models.TextField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
 
