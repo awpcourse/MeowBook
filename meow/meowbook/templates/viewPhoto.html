@@ -1,27 +1,50 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h2>meowBook</h2>
-        <div>
-		<img src='{{ object.picture.url }} '> </br><i>{{ object.cat.name }}</i></br>
-			{{ object.date_added }}</br>
-			{{ object.description }}
-			
+<div class="jumbotron">
+    <div style="text-align:center;">
+        <div class="page-header">
+            <div style="display:inline-block;text-align:left;">
+                <img class="img-circle" src="{{ object.cat.avatar.url }}" style="width:150px;height:150px;float:left;margin-right:50px;"/>
+                <h1 style="float:right;"><b> {{object.cat.name}}'s Photo </b></h1>
+                <h4>{{ object.date_added }}</h4>
+            </div>
         </div>
+        <div style="clear-fix"></div>
+    </div>
+    <hr/>
+    <div>
+		<img src='{{ object.picture.url }} ' style="max-height:800px;width:auto;display:block;margin-left:auto;margin-right:auto;">
+            <div class="well" style="margin-top:20px;">
+                {{ object.description }}
+			</div>
+    </div>
 	
 	<div class="row">
-       <div class="col-lg-8">
+       <div>
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Post">
+                {% for field in form %}
+                <div class="form-group">
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <input type="submit" value="Post" class="btn btn-primary btn-block">
             </form>
         </div>
 	</div>
-		</br></br>
+
+
 		{% for photoComment in object.picture_comments.all %}
-		<div>
-            {{ photoComment.text }} by <i>{{ photoComment.cat.name }}</i> on {{ photoComment.date_added }}</br>
-			
+		<div style="margin-top:30px;">
+            <div style="float:left;margin-right:50px">
+            <img class="img-circle" src="{{photoComment.cat.avatar.url}}" style="width:100px;height:100px;"/>
+            </div>
+            <div class="float:right;">
+                 by <i>{{ photoComment.cat.name }}</i> on {{ photoComment.date_added }}</br>
+                <span style="font-size:15px;"><b>{{ photoComment.text }}</b></span>
+            </div>
+            <div class="clear-fix"></div>
         </div>
 		{% endfor %}
+</div>
 {% endblock %}
