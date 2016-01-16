@@ -30,8 +30,9 @@ class NewsFeedView(ListView, LayoutView):
     model = CatPicture
     form_class = CatStatusForm
     template_name = 'newsfeed.html'
-
-    def get_context_data(self, **kwargs):
+    current_cat = None
+    def get_context_data(self,request, **kwargs):
+        current_cat = request.get('current_cat')
         context = super(NewsFeedView, self).get_context_data(**kwargs)
         # import pdb;pdb.set_trace()
         context['form'] = self.form_class()
