@@ -5,9 +5,9 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from forms import CatStatusForm, LoginForm
-from models import CatPicture,CatProfile,CatStatus, UserProfile
-from forms import CatStatusForm, LoginForm, StatusCommentForm
-from models import CatPicture,CatProfile,CatStatus,StatusComment
+from models import CatPicture,CatProfile,CatStatus, UserProfile, CatPicture
+from forms import CatStatusForm, LoginForm, StatusCommentForm, PhotoCommentForm
+from models import CatPicture,CatProfile,CatStatus,StatusComment,PictureComment
 
 class LayoutView(View):
 
@@ -69,6 +69,24 @@ class StatusCommentView(DetailView):
         return context
 
 
+class PhotoView(DetailView):
+    model = CatPicture
+    form_class = PhotoCommentForm
+    template_name = 'viewPhoto.html'
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            text = form.cleaned_data['text']
+            picture_comment = PictureComment(text=text)
+            picture_comment.save()
+        return redirect('/')
+
+    def get_context_data(self, **kwargs):
+        context = super(PhotoView, self).get_context_data(**kwargs)
+        context['form'] = self.form_class()
+        return context
+
 def login_view(request):
     if request.method == 'GET':
         form = LoginForm()
@@ -106,11 +124,4 @@ def search(request, cat_name):
         }
         return render(request, 'search.html', context)
 
-
-
-    if request.method == 'GET':
-        context = {
-            'status': status,
-        }
-        return render(request, 'view_status.html', context)
 

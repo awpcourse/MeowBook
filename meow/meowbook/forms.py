@@ -21,3 +21,9 @@ class StatusCommentForm(Form):
         attrs={'rows': 2, 'placeholder': "MEEOOOWW..."}),
         label='')
 
+
+class PhotoCommentForm(Form):
+    text = CharField(widget=Textarea(
+        attrs={'rows': 2, 'placeholder': "MEEOOOWW THIS PHOTO..."}),
+        label='')
+

@@ -26,7 +26,8 @@ class CatPicture(models.Model):
 
 
 class PictureComment(models.Model):
-    cat = models.ForeignKey(CatProfile, related_name="picture_comments")
+    cat = models.ForeignKey(CatProfile)
+    picture = models.ForeignKey(CatPicture, related_name="picture_comments")
     text = models.TextField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
 
