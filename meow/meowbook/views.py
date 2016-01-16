@@ -31,7 +31,7 @@ class LayoutView(View):
         redirect('search', searchToken)
 
 
-class NewsFeedView(ListView,LayoutView):
+class NewsFeedView(ListView, LayoutView):
     model = CatPicture
     form_class = CatStatusForm
     template_name = 'newsfeed.html'
