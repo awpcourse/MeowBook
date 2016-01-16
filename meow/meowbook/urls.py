@@ -6,4 +6,5 @@ import views
 
 urlpatterns = [
     url(r'^$', views.NewsFeedView.as_view(), name='newsfeed'),
+    url(r'^search/(?P<cat_name>.+)/$', views.search, name='search'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,8 +1,10 @@
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 
 from forms import CatStatusForm
-from models import CatPicture
+from models import CatPicture,CatProfile
 
 
 class NewsFeedView(ListView):
@@ -22,3 +24,13 @@ class NewsFeedView(ListView):
             user_post = CatStatusForm(text=text, author=request.user)
             user_post.save()
         return redirect('index')
+
+
+def search(request, cat_name):
+    cats = CatProfile.objects.filter(name__contains=cat_name).all()
+
+    if request.method == 'GET':
+        context = {
+            'cats': cats,
+        }
+        return render(request, 'search.html', context)
