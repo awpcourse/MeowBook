@@ -21,4 +21,4 @@ class NewsFeedView(ListView):
             text = form.cleaned_data['text']
             user_post = CatStatusForm(text=text, author=request.user)
             user_post.save()
-        return redirect('index')
+        return redirect('newsfeed')
