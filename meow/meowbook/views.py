@@ -1,13 +1,34 @@
 from django.shortcuts import redirect, render
+from django.views.generic import View
 from django.views.generic.list import ListView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from forms import CatStatusForm, LoginForm
-from models import CatPicture,CatProfile,CatStatus
+from models import CatPicture,CatProfile,CatStatus, UserProfile
+
+class LayoutView(View):
+
+    def get_context_data(self, request, **kwargs):
+        form = self.SearchBarForm(request)
+        catList = UserProfile.cats
+        if request.user.is_authenticated():
+            user = request.user.username()
+        else:
+            user = "Failed user get"
+
+        context = super(LayoutView, self).get_context_data(**kwargs)
+        context['cats'] = catList
+        context['search_form'] = form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.SearchBarForm(request.POST)
+        if form.is_valid():
+            searchToken = form.cleaned_data['text']
+        redirect('search', searchToken)
 
 
-
-class NewsFeedView(ListView):
+class NewsFeedView(ListView,LayoutView):
     model = CatPicture
     form_class = CatStatusForm
     template_name = 'newsfeed.html'
@@ -75,23 +96,3 @@ def cat_status(request, pk):
         }
         return render(request, 'view_status.html', context)
 
-class LayoutView(View):
-
-    def get_context_data(self, request, **kwargs):
-        catList = UserProfile.cats
-        if request.user.is_authenticated():
-            user = request.user.username()
-        else:
-            user = "Failed user get"
-
-        context  = super(LayoutView, self).get_context_data(**kwargs)
-        context ['cats'] = catList
-        context ['loggedInUser'] = user
-
-        return context
-
-    def post(self, request, *args, **kwargs):
-        form = self.SearchBarForm(request.POST)
-        if form.is_valid():
-            searchToken = form.cleaned_data['text']
-        redirect('search', searchToken)
